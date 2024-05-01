@@ -14,6 +14,18 @@ set(CMAKE_CXX_STANDARD_REQUIRED)
 #find_package(glfw3 REQUIRED)
 find_package(OpenGL REQUIRED)
 
+if("${CMAKE_SYSTEM_NAME}" STREQUAL "Darwin")
+    set(OS_MACOSX 1)
+    set(OS_POSIX 1)
+elseif("${CMAKE_SYSTEM_NAME}" STREQUAL "Linux")
+    set(OS_LINUX 1)
+    set(OS_POSIX 1)
+elseif("${CMAKE_SYSTEM_NAME}" STREQUAL "Windows")
+    set(OS_WINDOWS 1)
+else()
+    message(FATAL_ERROR "Unsupported target platform")
+endif()
+
 #==============================================================================
 #	SDL
 #==============================================================================
@@ -79,9 +91,22 @@ set(SOURCES
 )
 
 add_library(imgui_opengl3_sdl STATIC ${SOURCES})
+
+#==============================================================================
+# PLATFORM LIBRARIES
+#==============================================================================
+
+if(OS_POSIX)
+	list(APPEND LIBS GL)	
+endif()
+
+if(OS_WINDOWS)
+	list(APPEND LIBS gdi32 opengl32 imm32)	
+endif()
+
 target_compile_features(imgui_opengl3_sdl PUBLIC cxx_std_20)
 target_include_directories(imgui_opengl3_sdl PUBLIC ${imgui_SOURCE_DIR})
-target_link_libraries(imgui_opengl3_sdl PUBLIC SDL3::SDL3-static)
+target_link_libraries(imgui_opengl3_sdl PUBLIC SDL3::SDL3-static ${LIBS})
 
 
 
