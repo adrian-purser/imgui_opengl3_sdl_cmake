@@ -48,7 +48,7 @@ message(STATUS "Adding ImGui...")
 FetchContent_Declare(
     imgui
     GIT_REPOSITORY  https://github.com/ocornut/imgui.git
-    GIT_TAG         origin/master
+    GIT_TAG         origin/docking
     GIT_SHALLOW     TRUE
 #    GIT_PROGRESS    TRUE
 )
