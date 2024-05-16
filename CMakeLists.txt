@@ -58,10 +58,17 @@ message(STATUS "SDL Binary Dir: ${SDL_BINARY_DIR}")
 #==============================================================================
 
 message(STATUS "Adding ImGui...")
+
+set( IMGUI_CMAKE_GIT_REPO "https://github.com/ocornut/imgui.git" CACHE STRING "ImGui Git Repository")
+set( IMGUI_CMAKE_GIT_TAG "master" CACHE STRING "ImGui Git Branch/Tag")
+
+message(STATUS "ImGui Git Repository: ${IMGUI_CMAKE_GIT_REPO}")
+message(STATUS "ImGui Git Branch/Tag: ${IMGUI_CMAKE_GIT_TAG}")
+
 FetchContent_Declare(
     imgui
-    GIT_REPOSITORY  https://github.com/ocornut/imgui.git
-    GIT_TAG         origin/master
+    GIT_REPOSITORY  ${IMGUI_CMAKE_GIT_REPO} 
+    GIT_TAG         origin/${IMGUI_CMAKE_GIT_TAG}
     GIT_SHALLOW     TRUE
 #    GIT_PROGRESS    TRUE
 )
