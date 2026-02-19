@@ -54,6 +54,25 @@ message(STATUS "SDL Include Dir: ${SDL_INCLUDE_DIRS}")
 message(STATUS "SDL Source Dir: ${SDL_SOURCE_DIR}")
 message(STATUS "SDL Binary Dir: ${SDL_BINARY_DIR}")
 
+# ------------------------------
+# Suppress SDL3 warnings
+# ------------------------------
+# Hide warnings in SDL3 headers
+get_target_property(sdl3_includes SDL3::SDL3-static INTERFACE_INCLUDE_DIRECTORIES)
+if(sdl3_includes)
+    target_include_directories(SDL3::SDL3-static SYSTEM INTERFACE ${sdl3_includes})
+endif()
+
+# Suppress warnings during SDL3 compilation
+if(TARGET SDL3::SDL3-static)
+    if(MSVC)
+        target_compile_options(SDL3::SDL3-static PRIVATE /w)
+    else()
+        target_compile_options(SDL3::SDL3-static PRIVATE -w)
+    endif()
+endif()
+
+
 #==============================================================================
 #	IMGUI
 #==============================================================================
